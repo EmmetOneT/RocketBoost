@@ -16,6 +16,7 @@ public class CollisionHandler : MonoBehaviour
     //Rigidbody rb;
     AudioSource audioSource;
     bool isControllable = true;
+    bool isCollidable = true;
 
 
     private void Start()
@@ -23,10 +24,28 @@ public class CollisionHandler : MonoBehaviour
         //rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
     }
+    private void Update()
+    {
+        RespondToDebugKeys();
+    }
+
+    //DEBUG CHEAT KEYS!
+    void RespondToDebugKeys()
+    {
+        if (Keyboard.current.lKey.wasPressedThisFrame)
+        {
+            LoadNextLevel();
+        }
+        else if (Keyboard.current.cKey.wasPressedThisFrame)
+        {
+            isCollidable = !isCollidable;
+        }
+
+    }
 
     private void OnCollisionEnter(Collision other)
     {
-        if (!isControllable)
+        if (!isControllable || !isCollidable)
         {
             return;
         }
